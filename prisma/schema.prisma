@@ -1,0 +1,197 @@
+// Reichman Entrepreneurship Club — database schema
+// Connection URLs live in prisma.config.ts (Prisma 7).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// AUDIENCE — subscribers and groups
+// ============================================
+
+enum SubscriberStatus {
+  PENDING // signed up via the newsletter form, double opt-in not confirmed yet
+  ACTIVE
+  UNSUBSCRIBED
+  BOUNCED
+  COMPLAINED
+}
+
+enum SubscriberSource {
+  ADMIN
+  CSV_IMPORT
+  NEWSLETTER_FORM
+}
+
+model Subscriber {
+  id             String           @id @default(cuid())
+  email          String           @unique // always stored lowercased + trimmed
+  firstName      String?
+  lastName       String?
+  status         SubscriberStatus @default(ACTIVE)
+  source         SubscriberSource
+  consentAt      DateTime? // explicit opt-in timestamp (Israeli anti-spam law, section 30A)
+  consentSource  String? // free text: form URL, import batch name, etc.
+  unsubscribedAt DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  memberships GroupMember[]
+  recipients  CampaignRecipient[]
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  members GroupMember[]
+}
+
+model GroupMember {
+  groupId      String
+  subscriberId String
+  addedAt      DateTime @default(now())
+
+  group      Group      @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  subscriber Subscriber @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+
+  @@id([groupId, subscriberId])
+  @@index([subscriberId])
+}
+
+// ============================================
+// CAMPAIGNS — one-off email blasts via Resend
+// ============================================
+
+enum CampaignStatus {
+  DRAFT
+  SENDING
+  COMPLETED
+  CANCELLED
+  FAILED
+}
+
+enum RecipientStatus {
+  PENDING
+  SENT
+  FAILED
+  SKIPPED // subscriber stopped being ACTIVE between snapshot and send
+}
+
+model Campaign {
+  id          String         @id @default(cuid())
+  name        String // internal name, never shown to recipients
+  subject     String
+  previewText String?
+  contentHtml String // sanitized HTML body (footer + unsubscribe are appended at send time)
+  fromEmail   String // must be in the sender allowlist (src/lib/mailing/senders.ts)
+  replyTo     String?
+  audience    Json // AudienceFilter, validated with zod before save
+  status      CampaignStatus @default(DRAFT)
+
+  totalRecipients Int @default(0) // frozen when the audience snapshot is taken
+  sentCount       Int @default(0)
+  failedCount     Int @default(0)
+
+  lockedAt    DateTime? // sender lease; stale after a few minutes so a resume can take over
+  startedAt   DateTime?
+  completedAt DateTime?
+  createdBy   String // admin email (auth tables come in Phase 1)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  recipients CampaignRecipient[]
+  events     EmailEvent[]
+  newsletter NewsletterIssue?
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Audience snapshot: one row per recipient, created when sending starts.
+// Makes sending resumable and idempotent without a cron.
+model CampaignRecipient {
+  id            String          @id @default(cuid())
+  campaignId    String
+  subscriberId  String
+  email         String // copied at snapshot time
+  status        RecipientStatus @default(PENDING)
+  resendEmailId String?         @unique
+  error         String?
+  sentAt        DateTime?
+
+  campaign   Campaign     @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  subscriber Subscriber   @relation(fields: [subscriberId], references: [id], onDelete: Cascade)
+  events     EmailEvent[]
+
+  @@unique([campaignId, subscriberId])
+  @@index([campaignId, status])
+}
+
+enum EmailEventType {
+  DELIVERED
+  DELIVERY_DELAYED
+  OPENED
+  CLICKED
+  BOUNCED
+  COMPLAINED
+  FAILED
+  SUPPRESSED
+  UNSUBSCRIBED // written by our unsubscribe endpoint, not by Resend
+}
+
+model EmailEvent {
+  id          String         @id @default(cuid())
+  webhookId   String         @unique // svix-id for Resend events, "unsubscribe:<recipientId>" for ours
+  campaignId  String
+  recipientId String
+  type        EmailEventType
+  link        String? // CLICKED only
+  metadata    Json?
+  occurredAt  DateTime
+  createdAt   DateTime       @default(now())
+
+  campaign  Campaign          @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  recipient CampaignRecipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([campaignId, type])
+  @@index([recipientId])
+}
+
+// ============================================
+// NEWSLETTER — public archive of issues
+// ============================================
+
+enum NewsletterStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model NewsletterIssue {
+  id            String           @id @default(cuid())
+  slug          String           @unique
+  title         String
+  excerpt       String?
+  contentHtml   String
+  coverImageUrl String?
+  status        NewsletterStatus @default(DRAFT)
+  publishedAt   DateTime?
+  campaignId    String?          @unique // set when the issue was also emailed
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  campaign Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+
+  @@index([status, publishedAt])
+}
