@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SendForm } from "@/app/send/send-form";
+import { geist } from "@/lib/fonts";
 
 export const maxDuration = 60;
 
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
 
 export default function SendPage() {
   return (
-    <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 px-6 py-16">
+    <main
+      dir="ltr"
+      lang="en"
+      className={`${geist.className} mx-auto flex w-full max-w-3xl flex-1 flex-col gap-8 bg-background px-6 py-16 text-foreground`}
+    >
       <header className="flex flex-col gap-2">
         <Link href="/" className="text-sm text-muted hover:text-foreground">
           ← Home

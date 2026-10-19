@@ -1,23 +1,32 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { geist, notoHebrew } from "@/lib/fonts";
+import { siteOrigin } from "@/lib/newsletter/site";
 import "./globals.css";
 
-const geist = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin()),
   title: {
-    default: "Reichman Entrepreneurship Club",
+    default: "ניוזלטר מדור החדשנות וה-AI",
     template: "%s | Reichman Entrepreneurship Club",
   },
-  description: "Reichman Entrepreneurship Club — events, pages, and campaign email.",
+  description: "הניוזלטר השבועי של מדור החדשנות וה-AI, מועדון היזמות באוניברסיטת רייכמן.",
+  icons: { icon: "/newsletter/logo.png" },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0F2D96",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={`${geist.variable} h-full antialiased`}>
+    <html
+      lang="he"
+      dir="rtl"
+      className={`${geist.variable} ${notoHebrew.variable} ${notoHebrew.className} h-full antialiased`}
+    >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

@@ -12,7 +12,28 @@
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-brand: var(--brand);
+  --color-ru-primary: #0f2d96;
+  --color-ru-primary-700: #2a44a0;
+  --color-ru-secondary: #46a0d8;
+  --color-ru-text: #272727;
+  --color-ru-muted: #69727d;
+  --color-ru-bg: #fafafa;
+  --color-ru-surface: #ffffff;
+  --color-ru-night: #000223;
+  --color-ru-glow: #006482;
   --font-sans: var(--font-geist-sans);
+  --font-hebrew: var(--font-noto-hebrew);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
