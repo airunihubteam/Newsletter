@@ -34,7 +34,6 @@ export async function sendCampaignAction(
 
   const csvText = await file.text();
   return sendCsvCampaign({
-    secret: String(formData.get("secret") ?? ""),
     subject: String(formData.get("subject") ?? ""),
     html: String(formData.get("html") ?? ""),
     csvText,

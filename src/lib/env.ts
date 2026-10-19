@@ -46,12 +46,10 @@ const domainSchema = z
 const mailingEnvSchema = z.object({
   RESEND_API_KEY: z.string().startsWith("re_"),
   RESEND_EMAIL_DOMAIN: domainSchema,
-  SEND_SECRET: z.string().min(16),
 });
 
 export type MailingEnv = {
   resendApiKey: string;
-  sendSecret: string;
   mailFrom: string;
 };
 
@@ -64,7 +62,6 @@ export function mailingEnv(): MailingEnv {
   }
   return {
     resendApiKey: parsed.data.RESEND_API_KEY,
-    sendSecret: parsed.data.SEND_SECRET,
     mailFrom: `Reichman Entrepreneurship Club <newsletter@${parsed.data.RESEND_EMAIL_DOMAIN}>`,
   };
 }

@@ -39,17 +39,6 @@ export function SendForm() {
       }}
     >
       <label className="flex flex-col gap-1.5 text-sm font-medium">
-        Send secret
-        <input
-          name="secret"
-          type="password"
-          autoComplete="current-password"
-          required
-          className={fieldClass}
-        />
-      </label>
-
-      <label className="flex flex-col gap-1.5 text-sm font-medium">
         Subject
         <input
           name="subject"

@@ -8,7 +8,7 @@ Newsletter issues are ordinary pages, shared on WhatsApp. Campaign email is a on
 
 ```bash
 npm install
-cp .env.example .env.local   # set SEND_SECRET and RESEND_API_KEY
+cp .env.example .env.local   # set RESEND_API_KEY and RESEND_EMAIL_DOMAIN
 npm run dev                  # http://localhost:3000/send
 ```
 

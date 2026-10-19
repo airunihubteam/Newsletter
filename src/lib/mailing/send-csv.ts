@@ -1,5 +1,4 @@
 import "server-only";
-import { createHash, timingSafeEqual } from "crypto";
 import { Resend } from "resend";
 import { mailingEnv } from "@/lib/env";
 import { parseRecipientCsv, type CsvParseResult } from "@/lib/mailing/csv";
@@ -15,12 +14,6 @@ export interface SendCsvResult {
   invalid: string[];
   duplicateCount: number;
   truncated: boolean;
-}
-
-function secretsMatch(provided: string, expected: string): boolean {
-  const providedHash = createHash("sha256").update(provided).digest();
-  const expectedHash = createHash("sha256").update(expected).digest();
-  return timingSafeEqual(providedHash, expectedHash);
 }
 
 function failure(message: string, parsed?: CsvParseResult): SendCsvResult {
@@ -40,7 +33,6 @@ function failure(message: string, parsed?: CsvParseResult): SendCsvResult {
  * this request only and are not written anywhere.
  */
 export async function sendCsvCampaign(input: {
-  secret: string;
   subject: string;
   html: string;
   csvText: string;
@@ -51,10 +43,6 @@ export async function sendCsvCampaign(input: {
   } catch (error) {
     const message = error instanceof Error ? error.message : "Mailing is not configured.";
     return failure(message);
-  }
-
-  if (!input.secret || !secretsMatch(input.secret, config.sendSecret)) {
-    return failure("Wrong send secret.");
   }
 
   const subject = input.subject.trim();
