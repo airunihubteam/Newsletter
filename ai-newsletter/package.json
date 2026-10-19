@@ -1,0 +1,27 @@
+{
+  "name": "ruec-ai-newsletter",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Weekly newsletter of the Innovation & AI department, Reichman University Entrepreneurship Club",
+  "scripts": {
+    "new": "node scripts/new-issue.js",
+    "check": "node scripts/check.js",
+    "build": "node scripts/build.js",
+    "build:fast": "node scripts/build.js --no-og --no-pdf",
+    "dev": "node scripts/build.js --no-og --no-pdf && node scripts/serve.js",
+    "serve": "node scripts/serve.js",
+    "poster": "node scripts/poster.js",
+    "deploy": "SITE_URL=https://ruec-ai-newsletter.vercel.app node scripts/build.js && VERCEL_ORG_ID=team_sgpo7GLypLXdsLjrl21gVcyh VERCEL_PROJECT_ID=prj_2RVWbUsSYn4ACM7mzf2RVg0WbKdz npx --yes vercel@latest deploy dist --prod --yes"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.8",
+    "gray-matter": "^4.0.3",
+    "marked": "^18.1.1",
+    "playwright-core": "^1.64.1",
+    "sharp": "^0.35.5"
+  }
+}

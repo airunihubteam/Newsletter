@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.venv/
+.env
+.env.local
+.cache/
+.DS_Store
+__pycache__/
+.vercel/
+deploy/*.local.gs

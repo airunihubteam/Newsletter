@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="בוטי (placeholder)">
+  <!-- Placeholder for Bootie. Drop the real asset at assets/bootie.png|webp|svg and rebuild. -->
+  <defs>
+    <linearGradient id="shell" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dfe4ee"/>
+    </linearGradient>
+  </defs>
+  <!-- ears / antennas -->
+  <rect x="14" y="40" width="10" height="26" rx="5" fill="#c9d3ea"/>
+  <rect x="96" y="40" width="10" height="26" rx="5" fill="#c9d3ea"/>
+  <line x1="60" y1="10" x2="60" y2="22" stroke="#0f2d96" stroke-width="3"/>
+  <circle cx="60" cy="9" r="4" fill="#46a0d8"/>
+  <!-- head -->
+  <rect x="20" y="22" width="80" height="64" rx="28" fill="url(#shell)" stroke="#0f2d96" stroke-width="2"/>
+  <!-- visor -->
+  <rect x="30" y="34" width="60" height="38" rx="17" fill="#000223"/>
+  <!-- eyes: one wink -->
+  <path d="M43 52 l7 -5 l-7 -5" fill="none" stroke="#5ff0f0" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <ellipse cx="74" cy="49" rx="5" ry="6.5" fill="#5ff0f0"/>
+  <path d="M52 61 q8 6 16 0" fill="none" stroke="#5ff0f0" stroke-width="3" stroke-linecap="round"/>
+  <!-- body hint -->
+  <rect x="40" y="88" width="40" height="24" rx="10" fill="url(#shell)" stroke="#0f2d96" stroke-width="2"/>
+  <rect x="54" y="96" width="12" height="4" rx="2" fill="#46a0d8"/>
+</svg>
