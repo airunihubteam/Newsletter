@@ -12,6 +12,6 @@ cp .env.example .env.local   # set SEND_SECRET and RESEND_API_KEY
 npm run dev                  # http://localhost:3000/send
 ```
 
-Until a domain is verified in Resend, keep `MAIL_FROM` on `onboarding@resend.dev`. That sender can only deliver to the inbox on the Resend account.
+Mail is sent from `newsletter@$RESEND_EMAIL_DOMAIN`. Set `RESEND_API_KEY` and `RESEND_EMAIL_DOMAIN` to the same values as Vercel.
 
 Plans: [`docs/01-GENERAL-PLAN.md`](docs/01-GENERAL-PLAN.md), [`docs/02-MAILING-SYSTEM-PLAN.md`](docs/02-MAILING-SYSTEM-PLAN.md).

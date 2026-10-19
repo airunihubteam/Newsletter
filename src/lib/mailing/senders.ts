@@ -1,12 +1,12 @@
 /**
- * Allowed From identities once the club domain is verified in Resend.
- * CSV sending currently uses the MAIL_FROM environment variable.
+ * From identity on the verified Resend domain.
+ * CSV sending builds this from RESEND_EMAIL_DOMAIN.
  */
 export const SENDERS = [
   {
-    email: "newsletter@mail.example.com",
+    email: "newsletter@ruecai.com",
     label: "Newsletter",
-    display: "Reichman Entrepreneurship Club <newsletter@mail.example.com>",
+    display: "Reichman Entrepreneurship Club <newsletter@ruecai.com>",
   },
 ] as const;
 

@@ -18,9 +18,8 @@ export default function SendPage() {
         </Link>
         <h1 className="text-3xl font-bold tracking-tight">Send a campaign</h1>
         <p className="text-muted">
-          Upload a CSV and send once. Addresses are not stored. Until a domain is verified in
-          Resend, mail can only be delivered to the address on the Resend account, using{" "}
-          <code>onboarding@resend.dev</code>.
+          Upload a CSV and send once. Addresses are not stored. Mail is sent from{" "}
+          <code>newsletter@{process.env.RESEND_EMAIL_DOMAIN ?? "your verified domain"}</code>.
         </p>
       </header>
       <SendForm />

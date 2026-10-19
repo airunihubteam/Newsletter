@@ -37,12 +37,16 @@ export function env(): ServerEnv {
   return cached;
 }
 
-const DEFAULT_MAIL_FROM = "Reichman Entrepreneurship Club <onboarding@resend.dev>";
+const domainSchema = z
+  .string()
+  .trim()
+  .toLowerCase()
+  .regex(/^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/);
 
 const mailingEnvSchema = z.object({
   RESEND_API_KEY: z.string().startsWith("re_"),
+  RESEND_EMAIL_DOMAIN: domainSchema,
   SEND_SECRET: z.string().min(16),
-  MAIL_FROM: z.string().trim().min(3).optional(),
 });
 
 export type MailingEnv = {
@@ -61,6 +65,6 @@ export function mailingEnv(): MailingEnv {
   return {
     resendApiKey: parsed.data.RESEND_API_KEY,
     sendSecret: parsed.data.SEND_SECRET,
-    mailFrom: parsed.data.MAIL_FROM || DEFAULT_MAIL_FROM,
+    mailFrom: `Reichman Entrepreneurship Club <newsletter@${parsed.data.RESEND_EMAIL_DOMAIN}>`,
   };
 }

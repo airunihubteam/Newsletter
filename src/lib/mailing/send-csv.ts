@@ -68,7 +68,7 @@ export async function sendCsvCampaign(input: {
 
   const replyTo = fromAddress(config.mailFrom);
   if (!replyTo) {
-    return failure("MAIL_FROM is not a valid sender address.");
+    return failure("RESEND_EMAIL_DOMAIN is not a valid sender domain.");
   }
 
   const parsed = parseRecipientCsv(input.csvText);
