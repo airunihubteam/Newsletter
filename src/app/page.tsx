@@ -1,27 +1,24 @@
 import type { Metadata } from "next";
-import { IssuePage } from "@/components/newsletter/issue-page";
+import { ArchivePage } from "@/components/newsletter/archive-page";
 import { loadIssues } from "@/lib/newsletter/load";
-import { issueMetadata } from "@/lib/newsletter/metadata";
+import { siteOrigin } from "@/lib/newsletter/site";
 
-export async function generateMetadata(): Promise<Metadata> {
-  const issues = await loadIssues();
-  const issue = issues[0];
-  if (!issue) {
-    return { title: { absolute: "ניוזלטר מדור החדשנות וה-AI" } };
-  }
-  return issueMetadata(issue, "/");
-}
+const description =
+  "ארכיון הגיליונות של הניוזלטר השבועי של מדור החדשנות וה-AI, מועדון היזמות באוניברסיטת רייכמן.";
+
+export const metadata: Metadata = {
+  title: { absolute: "ניוזלטר מדור החדשנות וה-AI · מועדון היזמות רייכמן" },
+  description,
+  alternates: { canonical: `${siteOrigin()}/` },
+  openGraph: {
+    title: "ניוזלטר מדור החדשנות וה-AI",
+    description,
+    locale: "he_IL",
+    images: [{ url: "/newsletter/hero-building-1600.webp" }],
+  },
+};
 
 export default async function HomePage() {
   const issues = await loadIssues();
-  const issue = issues[0];
-  if (!issue) {
-    return (
-      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col gap-4 px-6 py-16">
-        <h1 className="text-3xl font-bold">עוד אין גיליון</h1>
-        <p>הגיליון הראשון יתפרסם כאן.</p>
-      </main>
-    );
-  }
-  return <IssuePage issue={issue} issues={issues} canonicalPath="/" />;
+  return <ArchivePage issues={issues} />;
 }

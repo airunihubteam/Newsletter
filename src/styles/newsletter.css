@@ -14,7 +14,7 @@
   --ru-line: #e3e6ee;
   --ru-tint: #eef2fa;
   --font: var(--font-noto-hebrew), "Noto Sans Hebrew", "Assistant", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
-  --gutter: 16px;
+  --gutter: 24px;
   --col: 680px;
   color-scheme: light;
   flex: 1 0 auto;
@@ -227,7 +227,7 @@
 
 /* ---------- wider screens ---------- */
 @media (min-width: 640px) {
-  .nl{ --gutter: 28px; }
+  .nl{ --gutter: 40px; }
   .nl .masthead{ padding-top: 28px; padding-bottom: 64px; }
   .nl .mast-meta{ margin-top: 72px; }
   .nl .mast-title{ font-weight: 200; }

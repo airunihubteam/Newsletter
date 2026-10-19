@@ -6,6 +6,6 @@ export function siteOrigin(): string {
   return raw.replace(/\/$/, "");
 }
 
-export function issuePath(slug: string, latestSlug: string | undefined): string {
-  return slug === latestSlug ? "/" : `/newsletter/${slug}`;
+export function issuePath(slug: string): string {
+  return `/newsletter/${slug}`;
 }

@@ -55,9 +55,7 @@ function SourceLinks({ links }: { links: { text: string; href: string | null }[]
       {links.map((link) =>
         link.href ? (
           <a key={link.href + link.text} className="source" href={link.href} target="_blank" rel="noopener">
-            <span>
-              {link.text}&nbsp;<span aria-hidden="true">←</span>
-            </span>
+            {link.text}
           </a>
         ) : (
           <span key={link.text} className="placeholder-link">
@@ -155,14 +153,13 @@ function IssueFooter({ issue, issues }: { issue: Issue; issues: Issue[] }) {
   const index = issues.findIndex((item) => item.slug === issue.slug);
   const newer = index > 0 ? issues[index - 1] : null;
   const older = index >= 0 && index < issues.length - 1 ? issues[index + 1] : null;
-  const latest = issues[0]?.slug;
   return (
     <footer className="footer">
       <ClubLockup />
       <nav className="footer-nav">
-        {older ? <Link href={issuePath(older.slug, latest)}>← גיליון {older.number}</Link> : <span />}
-        <Link href="/newsletter">כל הגיליונות</Link>
-        {newer ? <Link href={issuePath(newer.slug, latest)}>גיליון {newer.number} →</Link> : <span />}
+        {older ? <Link href={issuePath(older.slug)}>← גיליון {older.number}</Link> : <span />}
+        <Link href="/">כל הגיליונות</Link>
+        {newer ? <Link href={issuePath(newer.slug)}>גיליון {newer.number} →</Link> : <span />}
       </nav>
     </footer>
   );
@@ -366,9 +363,7 @@ export function IssuePage({ issue, issues, canonicalPath }: { issue: Issue; issu
                 {concept.links.map((link) =>
                   link.href ? (
                     <a key={link.href} className="source" href={link.href} target="_blank" rel="noopener">
-                      <span>
-                        {link.text}&nbsp;<span aria-hidden="true">←</span>
-                      </span>
+                      {link.text}
                     </a>
                   ) : (
                     <span key={link.text} className="placeholder-link">

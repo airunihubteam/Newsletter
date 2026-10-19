@@ -26,12 +26,12 @@ export function ArchivePage({ issues }: { issues: Issue[] }) {
       </header>
       <main className="page archive">
         {latest ? (
-          <Link className="archive-latest" href={issuePath(latest.slug, latest.slug)}>
+          <Link className="archive-latest" href={issuePath(latest.slug)}>
             <span className="kicker">הגיליון האחרון · {dotDate(latest.date)}</span>
             <span className="archive-num">#{latest.number}</span>
             <strong>{latest.title}</strong>
             <span className="archive-desc">{latest.description}</span>
-            <span className="text-cta">לקריאה ←</span>
+            <span className="text-cta">לקריאה</span>
           </Link>
         ) : (
           <p>עוד אין גיליונות.</p>
@@ -42,7 +42,7 @@ export function ArchivePage({ issues }: { issues: Issue[] }) {
             <ol className="archive-list">
               {rest.map((issue) => (
                 <li key={issue.slug}>
-                  <Link href={issuePath(issue.slug, latest?.slug)}>
+                  <Link href={issuePath(issue.slug)}>
                     <span className="archive-n">#{issue.number}</span>
                     <span className="archive-t">{issue.title}</span>
                     <span className="archive-d">{dotDate(issue.date)}</span>

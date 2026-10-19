@@ -19,7 +19,7 @@ export async function generateMetadata({
   const issues = await loadIssues();
   const issue = issues.find((item) => item.slug === slug);
   if (!issue) return { title: "גיליון" };
-  return issueMetadata(issue, issuePath(issue.slug, issues[0]?.slug));
+  return issueMetadata(issue, issuePath(issue.slug));
 }
 
 export default async function NewsletterIssuePage({ params }: { params: Promise<{ slug: string }> }) {
@@ -27,5 +27,5 @@ export default async function NewsletterIssuePage({ params }: { params: Promise<
   const issues = await loadIssues();
   const issue = issues.find((item) => item.slug === slug);
   if (!issue) notFound();
-  return <IssuePage issue={issue} issues={issues} canonicalPath={issuePath(issue.slug, issues[0]?.slug)} />;
+  return <IssuePage issue={issue} issues={issues} canonicalPath={issuePath(issue.slug)} />;
 }

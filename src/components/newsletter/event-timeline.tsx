@@ -86,9 +86,7 @@ export function EventTimeline({ events, notes }: { events: EventItem[]; notes: s
                   ) : null}
                   {event.link ? (
                     <a className="tl-register" href={event.link} target="_blank" rel="noopener">
-                      <span>
-                        להרשמה&nbsp;<span aria-hidden="true">←</span>
-                      </span>
+                      להרשמה
                     </a>
                   ) : null}
                 </div>

@@ -305,7 +305,7 @@ function parseConcept(md: string): ConceptSection {
       concept.list = {
         label: listLabel,
         items: list.items.map((item) => {
-          const match = item.text.match(/^\*\*(.+?)\*\*\s*[—–-]\s*([\s\S]*)$/);
+          const match = item.text.match(/^\*\*(.+?)\*\*\s*[—–:-]\s*([\s\S]*)$/);
           return match ? { term: match[1], text: match[2] } : { term: null, text: item.text };
         }),
       };
@@ -362,7 +362,7 @@ export function parseIssue(file: string): Issue {
       continue;
     }
     const clean = heading.replace(/^\d+\.\s*/, "");
-    const subtitle = (clean.split(/\s+[—–]\s+/)[1] ?? "").trim();
+    const subtitle = (clean.split(/\s*[—–:]\s+/)[1] ?? "").trim();
     seen.add(def.key);
     if (def.key === "news") {
       issue.sections.news = { key: def.key, label: def.label, subtitle, items: parseNews(body) };
