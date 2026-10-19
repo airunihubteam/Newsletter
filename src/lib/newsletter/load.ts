@@ -54,8 +54,7 @@ function withPosters(issue: Issue): Issue {
   };
 }
 
-export async function loadIssues(): Promise<Issue[]> {
-  "use cache";
+function readIssues(): Issue[] {
   if (!fs.existsSync(ISSUES_DIR)) return [];
   const files = fs.readdirSync(ISSUES_DIR).filter((file) => /^\d{4}-\d{2}-\d{2}\.md$/.test(file));
   const issues = files.map((file) => withPosters(parseIssue(path.join(ISSUES_DIR, file))));
@@ -65,6 +64,16 @@ export async function loadIssues(): Promise<Issue[]> {
     slugs.add(issue.slug);
   }
   return issues.sort((a, b) => b.date.localeCompare(a.date) || b.number - a.number);
+}
+
+async function readIssuesCached(): Promise<Issue[]> {
+  "use cache";
+  return readIssues();
+}
+
+export async function loadIssues(): Promise<Issue[]> {
+  if (process.env.NODE_ENV === "development") return readIssues();
+  return readIssuesCached();
 }
 
 export async function loadIssue(slug: string): Promise<Issue | undefined> {

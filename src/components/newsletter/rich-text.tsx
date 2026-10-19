@@ -2,6 +2,7 @@ import { Fragment, type ReactNode } from "react";
 import { Lexer, type Token, type Tokens } from "marked";
 
 const RANGE_RE = /(?<![\w.:])(\d[\d.:,]*\s?[–—-]\s?\d[\d.:,]*)(?!\w)/g;
+const NUM_RE = /(?<![\w.])(\d[\d.,]*[%+])(?![\w%+])/g;
 const QUOTE_RE = /"([A-Za-z][A-Za-z0-9 .\-]{1,40})"/g;
 const LIST_RE =
   /(?<![A-Za-z0-9&.\-] ?)[A-Za-z][A-Za-z0-9.\- ]*[A-Za-z0-9](?:, [A-Za-z][A-Za-z0-9.\- ]*[A-Za-z0-9])+(?! ?[&A-Za-z0-9])/g;
@@ -31,6 +32,13 @@ function mapStrings(nodes: ReactNode[], fn: (text: string) => ReactNode[]): Reac
 
 function bidi(text: string): ReactNode {
   let nodes: ReactNode[] = [text];
+  nodes = mapStrings(nodes, (part) =>
+    apply(part, NUM_RE, (match, key) => (
+      <bdi dir="ltr" key={`n-${key}`}>
+        {match}
+      </bdi>
+    )),
+  );
   nodes = mapStrings(nodes, (part) =>
     apply(part, RANGE_RE, (match, key) => (
       <span dir="ltr" key={`r-${key}`}>
