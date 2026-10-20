@@ -207,8 +207,14 @@
 .nl .btn-primary{ background: var(--ru-primary); color: #fff; }
 .nl .btn-primary:hover{ background: var(--ru-primary-700); }
 .nl .btn-ghost{ border: 1px solid var(--ru-primary); color: var(--ru-primary); font-weight: 600; font-size: 15px; min-height: 46px; }
+.nl .btn-on-dark{ background: #fff; color: var(--ru-primary); }
+.nl .btn-on-dark:hover{ background: #e7f3fb; }
+.nl .mast-community{ margin-top: 28px; }
 .nl .closing-actions{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 22px; }
 .nl .closing-actions:has(> :only-child){ grid-template-columns: 1fr; }
+@media (max-width: 520px) {
+  .nl .closing-actions{ grid-template-columns: 1fr; }
+}
 
 .nl .footer{ max-width: calc(var(--col) + 2 * var(--gutter)); margin: 64px auto 0; padding: 22px var(--gutter) 40px; border-top: 1px solid var(--ru-line); color: var(--ru-primary); }
 .nl .footer-nav{ display: flex; justify-content: space-between; margin-top: 18px; font-size: 14.5px; font-weight: 600; }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WhatsAppCommunityLink } from "@/components/newsletter/whatsapp-community";
 import { dotDate } from "@/lib/newsletter/dates";
 import { issuePath } from "@/lib/newsletter/site";
 import type { Issue } from "@/lib/newsletter/types";
@@ -22,6 +23,9 @@ export function ArchivePage({ issues }: { issues: Issue[] }) {
           <p className="mast-desc">
             כל שבוע: מה קרה ב-AI, אילו אירועים שווים את הערב שלכם, מדריך אחד שאפשר ליישם היום ומושג אחד שכדאי להכיר.
           </p>
+          <div className="mast-community">
+            <WhatsAppCommunityLink onDark />
+          </div>
         </div>
       </header>
       <main className="page archive">

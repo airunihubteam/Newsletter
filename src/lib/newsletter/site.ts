@@ -9,3 +9,6 @@ export function siteOrigin(): string {
 export function issuePath(slug: string): string {
   return `/newsletter/${slug}`;
 }
+
+/** Public invite to the club's AI WhatsApp community. */
+export const whatsappCommunityUrl = "https://chat.whatsapp.com/FFasDzRPtc71uRaIpH6Z9C?mode=gi_t";

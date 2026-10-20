@@ -4,6 +4,7 @@ import { GuideVideo } from "@/components/newsletter/guide-video";
 import { PromptBlock } from "@/components/newsletter/prompt-block";
 import { ReadingProgress } from "@/components/newsletter/reading-progress";
 import { RichText } from "@/components/newsletter/rich-text";
+import { WhatsAppCommunityLink } from "@/components/newsletter/whatsapp-community";
 import { heDate } from "@/lib/newsletter/dates";
 import { issuePath, siteOrigin } from "@/lib/newsletter/site";
 import type { Guide, Issue } from "@/lib/newsletter/types";
@@ -395,6 +396,7 @@ export function IssuePage({ issue, issues, canonicalPath }: { issue: Issue; issu
             </div>
           </div>
           <div className="closing-actions">
+            {issue.number === 1 ? <WhatsAppCommunityLink /> : null}
             <a
               className="btn btn-ghost"
               href={`https://wa.me/?text=${encodeURIComponent(shareText)}`}

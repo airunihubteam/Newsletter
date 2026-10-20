@@ -162,8 +162,9 @@ function classifyClick(target: EventTarget | null): { name: string; params: Anal
     return null;
   }
 
-  if (url.hostname === "wa.me" || url.hostname === "api.whatsapp.com") {
-    return { name: "cta_click", params: withSection(el, { cta: "whatsapp", button_text: buttonText }) };
+  if (url.hostname === "wa.me" || url.hostname === "api.whatsapp.com" || url.hostname === "chat.whatsapp.com") {
+    const cta = url.hostname === "chat.whatsapp.com" ? "whatsapp_community" : "whatsapp";
+    return { name: "cta_click", params: withSection(el, { cta, button_text: buttonText }) };
   }
 
   const rawHref = el.getAttribute("href") ?? "";
