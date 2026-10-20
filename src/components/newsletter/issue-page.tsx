@@ -172,7 +172,7 @@ export function IssuePage({ issue, issues, canonicalPath }: { issue: Issue; issu
   const concept = issue.sections.concept;
 
   return (
-    <div className="nl">
+    <div className="nl" data-issue={issue.number}>
       <a className="skip" href="#news">
         דלגו לתוכן
       </a>

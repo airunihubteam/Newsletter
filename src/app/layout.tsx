@@ -1,4 +1,6 @@
+import { Suspense } from "react";
 import type { Metadata, Viewport } from "next";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { geist, notoHebrew } from "@/lib/fonts";
 import { siteOrigin } from "@/lib/newsletter/site";
 import "./globals.css";
@@ -27,7 +29,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       dir="rtl"
       className={`${geist.variable} ${notoHebrew.variable} ${notoHebrew.className} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        {children}
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
+      </body>
     </html>
   );
 }
